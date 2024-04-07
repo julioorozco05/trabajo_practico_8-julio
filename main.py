@@ -5,11 +5,10 @@ import joblib
 
 app = FastAPI(
     title= "predict linear regression model",
-    version= "0.0.1"
+    version= "0.0.2"
 )
 
 model = joblib.load("model/logistic_regression_v01.pkl")
-print(model)
 
 
 @app.post("/api/v1/prediction-linear-regression", tags=["linear-regression"])
@@ -32,10 +31,10 @@ async def predict(
             'Age': [Age]
         })
 
-        # Realizar la predicción
         prediction = model.predict(data_frame)
 
-        prediction_str = "Diabetes" if prediction[0] == 1 else "No Diabetes"
+        prediction_str = "tiene Diabetes" if prediction[0] == 1 else "No Diabetes"
+
 
         # Devolver la predicción como JSON
         return JSONResponse(
