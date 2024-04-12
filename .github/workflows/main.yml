@@ -4,6 +4,9 @@ name: CI model to DH
 
 # Trigger
 on:
+  push:
+    branches:
+      - dev
   pull_request:
     branches:
       - dev
@@ -28,3 +31,5 @@ jobs:
 
       - name: docker push to dockerhub
         run: docker push julioorozco05/trabajo-8:v1
+
+
