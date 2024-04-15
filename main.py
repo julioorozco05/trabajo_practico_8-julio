@@ -5,7 +5,8 @@ import joblib
 
 app = FastAPI(
     title= "predict linear regression model",
-    version= "0.0.2"
+    version= "0.1.0"
+
 )
 
 model = joblib.load("model/logistic_regression_v01.pkl")
