@@ -32,4 +32,23 @@ jobs:
       - name: docker push to dockerhub
         run: docker push julioorozco05/trabajo-8:v1
 
+      - name: Login into the server
+        run: echo'${{ secrets.DOCKER_PASSWORD }}' | docker login -u '${{ secrets.DOCKER_USERNAME }}' --password-stdin
+
+# Nueva funcionalidad
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker login
+            if docker ps --all | grep linear-regression; then
+              docker stop linear-regression
+              docker rm linear-regression
+            fi
+            
+            docker pull ${{ secrets.DOCKER_USERNAME }}/trabajo-8:v1
+            docker run -d --name linear-regression -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/trabajo-8:v1
 
